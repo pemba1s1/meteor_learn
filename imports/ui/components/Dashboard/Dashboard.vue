@@ -6,7 +6,9 @@
         <button @click.prevent="addContact">Add Contact</button>
         <button @click.prevent="viewContact">View Contacts</button>
         {{user}}
+        <p v-if="$subReady.organizations">ASDsa</p>
         <button @click="getOrgs">Get orgs</button>
+        
         <br/>
         <div v-if="orgsList" >
             <div v-for="org in orgsList" :key="org._id">

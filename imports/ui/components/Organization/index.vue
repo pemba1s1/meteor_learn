@@ -12,7 +12,7 @@
 </template>
 <script>
 import {Meteor} from 'meteor/meteor'
-import { Organizations } from '../../../api/collections/organization'
+import { Organizations } from '../../../api/collections/Organization'
 export default({
     data(){
         return {

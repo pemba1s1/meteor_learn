@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { Organizations } from '../collections/organization'
+import { Organizations } from '../collections/Organization'
 
 
 const KeelaAdmin = "h3bviCvE7WY3L5NCf";

@@ -1,22 +1,22 @@
 <template>
-    <div>
-        All Contacts
+    <div v-if="$subReady.contacts">
+        Contact Page
+        <p>Name : {{contacts.name}}</p>
+        <p>Email : {{contacts.email}}</p>
     </div>
 </template>
 <script>
+import { Contacts } from "../../../api/collections/Contacts";
 
 export default({
-    data(){
-        return{
-
-        }
-    },
-    methods:{
-
-    },
     meteor:{
         $subscribe:{
-            'contacts':[]
+            'contacts'() {
+                return [{ _id: this.$route.params.contactId }];
+            },
+        },
+        contacts(){
+            return Contacts.findOne({})
         }
     }
 })

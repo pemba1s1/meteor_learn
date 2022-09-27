@@ -10,6 +10,7 @@
                 Coordinator
             </option>
         </select>
+        <p v-if="error">{{error}}</p>
         <button type="submit">Add</button>
     </form>
 </template>
@@ -21,7 +22,8 @@ export default({
         return {
             email:"",
             name:"",
-            permission:""
+            permission:"",
+            error:""
         }
     },
     components:{
@@ -30,11 +32,17 @@ export default({
     methods:{
         addUser(){
             // console.log(this.name,this.email,this.permission)
-            Meteor.call('user.add',{
+            Meteor.call('users.add',{
                 name:this.name,
                 org_id:this.$route.params.orgid,
                 email:this.email,
                 permission: this.permission
+            },(err)=>{
+                if(err){
+                    this.error= err.error;
+                }else{
+                    this.$router.go(-1)
+                }
             })
         }
     }

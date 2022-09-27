@@ -27,6 +27,8 @@ export default {
             Meteor.call('organization.create',this.name,(err)=>{
                 if(err){
                     this.error = err.error
+                }else{
+                    this.$router.go(-1)
                 }
             })
         }

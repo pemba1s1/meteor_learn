@@ -2,14 +2,13 @@
     <div>
         <h1>Dashboard </h1>
         <button @click.prevent="logout">Log Out</button>
-        <button @click.prevent="createOrg">Create Organization</button>
-        <button @click.prevent="addContact">Add Contact</button>
-        <button @click.prevent="viewContact">View Contacts</button>
-        {{user}}
+        <!-- <div v-if="$subReady.user && user.length > 0 && user[0].isAdmin">         -->
+            <button @click.prevent="createOrg">Create Organization</button>
+        <!-- </div> -->
         <div class="loading" v-if="$subReady.organizations">
-            <div v-for="org in asd" :key="org._id">
-                <router-link :to="`/org/${org._id}`">{{org.name}}</router-link>
-                <button @click.prevent="addUser(org._id)">Add User</button>
+            My organizations
+            <div v-for="org in organizations" :key="org._id">
+                <router-link :to="`/org/${org._id}/`">{{org.name}}</router-link>
             </div>
         </div>
         <br/>
@@ -18,6 +17,7 @@
 <script>
 import { Meteor } from 'meteor/meteor'
 import { Organizations } from '../../../api/collections/Organization'
+import { Users } from '../../../api/collections/Users';
 export default({
     data(){
         return {
@@ -37,32 +37,23 @@ export default({
         createOrg(){
             this.$router.push({name:'createOrg'})
         },
-        addContact(){
-            this.$router.push({name:'addContact'})
-        },
-        addUser(id){
-            this.$router.push(`/org/${id}/user/add`)
-        },
         viewContact(){
             this.$router.push({name:'viewContact'})
         }
         
     },
-    computed:{
-        user(){
-            console.log(Meteor.users)
-        }
-    },
     meteor:{
         $subscribe:{
-            'organizations':[]
-        },
-        asd(){
-            let experimentsData = Organizations.find({}).fetch();
-            if(this.$subReady.organizations){
-                console.log(experimentsData)
-                return experimentsData;
+            'organizations':[],
+            'user'(){
+                return [ {'user._id':Meteor.userId()} ]
             }
+        },
+        organizations(){
+            return Organizations.find({}).fetch();            
+        },
+        user(){
+            return Users.find({}).fetch();
         }
     }
 })

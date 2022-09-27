@@ -12,7 +12,12 @@ import CreateOrg from "../ui/components/Organization/create.vue"
 import AddUser from "../ui/components/User/add.vue"
 import AddContact from "../ui/components/Contacts/add.vue"
 import ViewOrg from "../ui/components/Organization/index.vue"
-import AllContacts from "../ui/components/Contacts/index.vue"
+import UpdateUser from "../ui/components/User/update.vue"
+import UpdateContact from "../ui/components/Contacts/edit.vue"
+import ContactPage from "../ui/components/Contacts/index.vue"
+import AddTags from "../ui/components/Tags/add.vue"
+import EditTags from "../ui/components/Tags/update.vue"
+import ViewTags from "../ui/components/Tags/index.vue"
 
 const routes = [
     { path:'/',name:"dashboard", component: Dashboard, meta: {requiresAuth: true} },
@@ -20,9 +25,14 @@ const routes = [
     { path:'/signup',name:"signup", component: Signup },
     { path:'/org/create',name:"createOrg", component: CreateOrg},
     { path:'/org/:orgid/user/add',name:"addUser", component: AddUser},
-    { path:'/org/:id',name:"createOrg", component: ViewOrg},
-    { path:'/contact/create',name:"addContact", component: AddContact},
-    { path: '/contact/', name:'viewContact', component: AllContacts}
+    { path:'/org/:orgid/',name:"createOrg", component: ViewOrg},
+    { path:'/org/:orgid/contact/add',name:"addContact", component: AddContact},
+    { path:'/org/:orgid/:userId', name:'updateUser', component:UpdateUser },
+    { path:'/org/:orgid/contacts/:contactId/edit', name:'updateContact', component:UpdateContact },
+    { path:'/org/:orgid/contacts/:contactId/' , name:'viewContact', component:ContactPage},
+    { path:'/org/:orgid/tags/add', name:'addTags', component:AddTags},
+    { path:'/org/:orgid/tags/:tagId', name:'viewTags', component:ViewTags},
+    { path:'/org/:orgid/tags/:tagId/edit', name:'editTags', component:EditTags}
 ]
 
 export default router = new Router({
@@ -33,7 +43,6 @@ export default router = new Router({
 router.beforeEach((to, from, next) => {
     if(to.meta.requiresAuth){
         if(Meteor.userId()){
-            console.log(Meteor.users)
             next();
         }else{
             next('/login')

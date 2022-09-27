@@ -1,11 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { Organizations } from '../collections/Organization'
+import { Users } from '../collections/Users';
 
 
-const KeelaAdmin = "h3bviCvE7WY3L5NCf";
 Meteor.methods({
-  'organization.create'(name) { 
-    if(this.userId == KeelaAdmin){
+  'organization.create'(name) {
+    let user = Meteor.user();
+    if(user && 'role' in user && user.role === "admin"){
       return Organizations.insert({
         name,
         createdAt: new Date(),
